@@ -6,11 +6,12 @@ const fetch = require('isomorphic-fetch');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // Parse request body as JSON
 
 app.post('/webhook', async (req, res) => {
-  const ticket = req.body;
-  const message = ticket.message ? ticket.message : 'New ticket received';
+  const ticket = req.body; // Access the ticket object from the 'payload' property
+  console.log('Received request payload:', ticket); // Log the request payload
+  const message = ticket && ticket.message ? ticket.message : 'New ticket received';
 
   console.log('Received ticket:', ticket); // Log the received ticket object
   console.log('Message:', message); // Log the message
@@ -47,9 +48,10 @@ async function sendWhatsAppMessage(ticket) {
   const options = {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNjA0ZjA4OWJlNzdjNWZkMTc5ZDY0NDcyNGRlMDZkNDRiNGUyOGY2NWE2NmE3NTA4YTAxZWU5YTczNjMxYjRkNWY5NmEzMDZhNjE4NTA1MzYiLCJpYXQiOjE2ODc0MTkwMTkuNjgyNjY0LCJuYmYiOjE2ODc0MTkwMTkuNjgyNjY4LCJleHAiOjQ4MTE1NTY2MTkuNjc0MDcyLCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.ecmX4Wlwhr1VllYQine5POyT4CTc3Zl41LIvetG8uOQuKD6jTQYVsKsWIb9PV1IkX5c1SHAAQ8LU6_rgIoD5DA',
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTkxMjBhMzE2NDUwYzI1ZGMwNDQ4YzlhYWYyYjM5OGVkN2I3YmJkYjkwMDQ0NWEwNWU1ODVhOTc3MGJhNzNhNjFlZmM2YjllNzBmM2I0OTYiLCJpYXQiOjE2ODgwMjExMTkuOTAyNzk3LCJuYmYiOjE2ODgwMjExMTkuOTAyODAxLCJleHAiOjQ4MTIxNTg3MTkuODkxODg1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.lTi2ZsFLyVPTU8b8dshn3aJ8i5AXNxrnTFab_boV5EWUMyqLT41pvZmbXFnmSJdIs2HORvwBWz6k6lYgTNepng',
       'accept': 'application/json',
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Bypass-Tunnel-Reminder': 'true'
     },
     body: JSON.stringify({
       params: [{ key: '{{1}}', value: message }],
