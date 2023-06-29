@@ -48,10 +48,9 @@ async function sendWhatsAppMessage(ticket) {
   const options = {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTkxMjBhMzE2NDUwYzI1ZGMwNDQ4YzlhYWYyYjM5OGVkN2I3YmJkYjkwMDQ0NWEwNWU1ODVhOTc3MGJhNzNhNjFlZmM2YjllNzBmM2I0OTYiLCJpYXQiOjE2ODgwMjExMTkuOTAyNzk3LCJuYmYiOjE2ODgwMjExMTkuOTAyODAxLCJleHAiOjQ4MTIxNTg3MTkuODkxODg1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.lTi2ZsFLyVPTU8b8dshn3aJ8i5AXNxrnTFab_boV5EWUMyqLT41pvZmbXFnmSJdIs2HORvwBWz6k6lYgTNepng',
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTRhNzRjZmI2MjBjMjQ5NjYyZGMxMzk4ZDk4YTk4OTk4YTgxZTA1ZjYzOTJiMDU0OTkwNjM0OWQxMWM0Y2IwMGMwMjRjNjNiMjhjZTIyMjMiLCJpYXQiOjE2ODgwNDY5NzkuMDA2MjY2LCJuYmYiOjE2ODgwNDY5NzkuMDA2MjY4LCJleHAiOjQ4MTIxODQ1NzguOTk1MTIxLCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.VQ8EoFC5PM-ZfdNNCepWXXsx6rB7VgzxAwzTMst1QkzpnM1J1B-y3OCx_In2ObqUu4X8hja1A4viT8YyQEXmJg',
       'accept': 'application/json',
-      'content-type': 'application/json',
-      'Bypass-Tunnel-Reminder': 'true'
+      'content-type': 'application/json'
     },
     body: JSON.stringify({
       params: [{ key: '{{1}}', value: message }],
