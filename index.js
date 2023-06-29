@@ -2,19 +2,27 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
+const winston = require('winston');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Configure the logger
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console()
+  ]
+});
 
 app.use(bodyParser.json()); // Parse request body as JSON
 
 app.post('/webhook', async (req, res) => {
   const ticket = req.body; // Access the ticket object from the 'payload' property
-  console.log('Received request payload:', ticket); // Log the request payload
+  logger.info('Received request payload:', ticket); // Log the request payload
   const message = ticket && ticket.message ? ticket.message : 'New ticket received';
 
-  console.log('Received ticket:', ticket); // Log the received ticket object
-  console.log('Message:', message); // Log the message
+  logger.info('Received ticket:', ticket); // Log the received ticket object
+  logger.info('Message:', message); // Log the message
 
   // Check if the ticket is assigned to the specific team
   if (ticket.team_id === '346034') {
@@ -22,7 +30,7 @@ app.post('/webhook', async (req, res) => {
       await sendWhatsAppMessage(ticket);
       res.json({ success: true, message: 'WhatsApp message sent successfully', ticket });
     } catch (error) {
-      console.error('Failed to send WhatsApp message:', error);
+      logger.error('Failed to send WhatsApp message:', error);
       res.status(500).json({ success: false, message: 'Failed to send WhatsApp message' });
     }
   } else {
@@ -31,7 +39,7 @@ app.post('/webhook', async (req, res) => {
 });
 
 async function sendWhatsAppMessage(ticket) {
-  console.log('Calling sendWhatsAppMessage');
+  logger.info('Calling sendWhatsAppMessage');
 
   const { streetAddress, maintenanceDescription, yourName, flatLetter, contactNumber, photos } = ticket;
 
@@ -62,16 +70,17 @@ async function sendWhatsAppMessage(ticket) {
   try {
     const response = await fetch('https://app.trengo.com/api/v2/wa_sessions', options);
     const data = await response.json();
-    console.log('API Response:', data);
+    logger.info('API Response:', data);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw error;
   }
 }
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT}`);
 });
+
 
 
 
