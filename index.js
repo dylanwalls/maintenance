@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const fetch = require('isomorphic-fetch');
 const winston = require('winston');
 
 const app = express();
@@ -16,87 +15,30 @@ const logger = winston.createLogger({
 
 app.use(bodyParser.json()); // Parse request body as JSON
 
-app.post('/webhook', async (req, res) => {
-  const ticket = req.body; // Access the ticket object from the 'payload' property
-  logger.info('Received request payload:', JSON.stringify(ticket)); // Log the request payload
+app.post('/webhook', (req, res) => {
+  const event = req.body; // Access the event object from the request body
+  logger.info('Received request payload:', JSON.stringify(event)); // Log the request payload
 
-  // Check if the ticket object is null or empty
-  if (!ticket) {
-    logger.error('No ticket object received');
+  // Check if the event object is null or empty
+  if (!event) {
+    logger.error('No event object received');
     res.status(400).json({ success: false, message: 'Invalid request payload' });
     return;
   }
 
-  const message = ticket && ticket.message ? ticket.message : 'New ticket received';
-
-  logger.info('Received ticket:', JSON.stringify(ticket)); // Log the received ticket object
-  logger.info('Message:', message); // Log the message
-
-  // Additional log statements
-  logger.info('Street Address:', ticket.streetAddress);
-  logger.info('Maintenance Description:', ticket.maintenanceDescription);
-  logger.info('Your Name:', ticket.yourName);
-  logger.info('Flat Letter:', ticket.flatLetter);
-  logger.info('Contact Number:', ticket.contactNumber);
-  logger.info('Photos:', ticket.photos);
-
-  // Check if the ticket is assigned to the specific team
-  if (ticket.team_id === '346034') {
-    try {
-      await sendWhatsAppMessage(ticket);
-      res.json({ success: true, message: 'WhatsApp message sent successfully', ticket });
-    } catch (error) {
-      logger.error('Failed to send WhatsApp message:', error);
-      res.status(500).json({ success: false, message: 'Failed to send WhatsApp message' });
-    }
+  // Check if the event type is TICKET_ASSIGNED
+  if (event.type === 'TICKET_ASSIGNED') {
+    const ticketId = event.ticket_id;
+    res.json({ success: true, ticketId });
   } else {
-    res.json({ success: true, message: 'Ticket not assigned to the specific team' });
+    res.json({ success: true, message: 'Not a TICKET_ASSIGNED event' });
   }
 });
-
-
-async function sendWhatsAppMessage(ticket) {
-  logger.info('Calling sendWhatsAppMessage');
-
-  const { streetAddress, maintenanceDescription, yourName, flatLetter, contactNumber, photos } = ticket;
-
-  const message = `
-    Ticket Information:
-    Street Address: ${streetAddress}
-    Maintenance Description: ${maintenanceDescription}
-    Your Name: ${yourName}
-    Flat Letter: ${flatLetter}
-    Contact Number: ${contactNumber}
-    Photos: ${photos}
-  `;
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTRhNzRjZmI2MjBjMjQ5NjYyZGMxMzk4ZDk4YTk4OTk4YTgxZTA1ZjYzOTJiMDU0OTkwNjM0OWQxMWM0Y2IwMGMwMjRjNjNiMjhjZTIyMjMiLCJpYXQiOjE2ODgwNDY5NzkuMDA2MjY2LCJuYmYiOjE2ODgwNDY5NzkuMDA2MjY4LCJleHAiOjQ4MTIxODQ1NzguOTk1MTIxLCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.VQ8EoFC5PM-ZfdNNCepWXXsx6rB7VgzxAwzTMst1QkzpnM1J1B-y3OCx_In2ObqUu4X8hja1A4viT8YyQEXmJg',
-      'accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      params: [{ key: '{{1}}', value: message }],
-      recipient_phone_number: '+27784130968',
-      hsm_id: '136514' // Replace with your WhatsApp template HSM ID
-    })
-  };
-
-  try {
-    const response = await fetch('https://app.trengo.com/api/v2/wa_sessions', options);
-    const data = await response.json();
-    logger.info('API Response:', data);
-  } catch (error) {
-    logger.error(error);
-    throw error;
-  }
-}
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
 });
+
 
 
 
