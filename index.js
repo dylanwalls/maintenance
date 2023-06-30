@@ -113,6 +113,8 @@ function sendWhatsAppMessage(ticket) {
   // Your logic to send the WhatsApp message
   // ...
 
+  // Log the ticket object
+  logger.info('THE TICKET OBJECT IS:', ticket);
   // Return the ticket ID
   logger.info('THE TICKET ID IS:', ticket.ticket_id);
   return ticket.ticket_id;
