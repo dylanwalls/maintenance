@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const CryptoJS = require('crypto-js');
 const winston = require('winston');
 
 const app = express();
