@@ -1,21 +1,3 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const fetch = require('isomorphic-fetch');
-const winston = require('winston');
-
-const app = express();
-const PORT = process.env.PORT || 8080;
-
-// Configure the logger
-const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console()
-  ]
-});
-
-app.use(bodyParser.json()); // Parse request body as JSON
-
 app.post('/webhook', async (req, res) => {
   const ticket = req.body; // Access the ticket object from the 'payload' property
   logger.info('Received request payload:', JSON.stringify(ticket)); // Log the request payload
@@ -26,10 +8,19 @@ app.post('/webhook', async (req, res) => {
     res.status(400).json({ success: false, message: 'Invalid request payload' });
     return;
   }
+
   const message = ticket && ticket.message ? ticket.message : 'New ticket received';
 
   logger.info('Received ticket:', JSON.stringify(ticket)); // Log the received ticket object
   logger.info('Message:', message); // Log the message
+
+  // Additional log statements
+  logger.info('Street Address:', ticket.streetAddress);
+  logger.info('Maintenance Description:', ticket.maintenanceDescription);
+  logger.info('Your Name:', ticket.yourName);
+  logger.info('Flat Letter:', ticket.flatLetter);
+  logger.info('Contact Number:', ticket.contactNumber);
+  logger.info('Photos:', ticket.photos);
 
   // Check if the ticket is assigned to the specific team
   if (ticket.team_id === '346034') {
