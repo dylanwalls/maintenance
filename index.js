@@ -1,3 +1,21 @@
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const fetch = require('isomorphic-fetch');
+const winston = require('winston');
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+// Configure the logger
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console()
+  ]
+});
+
+app.use(bodyParser.json()); // Parse request body as JSON
+
 app.post('/webhook', async (req, res) => {
   const ticket = req.body; // Access the ticket object from the 'payload' property
   logger.info('Received request payload:', JSON.stringify(ticket)); // Log the request payload
@@ -35,6 +53,7 @@ app.post('/webhook', async (req, res) => {
     res.json({ success: true, message: 'Ticket not assigned to the specific team' });
   }
 });
+
 
 async function sendWhatsAppMessage(ticket) {
   logger.info('Calling sendWhatsAppMessage');
