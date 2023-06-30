@@ -19,6 +19,13 @@ app.use(bodyParser.json()); // Parse request body as JSON
 app.post('/webhook', async (req, res) => {
   const ticket = req.body; // Access the ticket object from the 'payload' property
   logger.info('Received request payload:', JSON.stringify(ticket)); // Log the request payload
+
+  // Check if the ticket object is null or empty
+  if (!ticket) {
+    logger.error('No ticket object received');
+    res.status(400).json({ success: false, message: 'Invalid request payload' });
+    return;
+  }
   const message = ticket && ticket.message ? ticket.message : 'New ticket received';
 
   logger.info('Received ticket:', JSON.stringify(ticket)); // Log the received ticket object
