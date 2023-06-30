@@ -68,8 +68,9 @@ app.post('/webhook', (req, res) => {
     // Check if the ticket is assigned to the specific team
     if (ticket.team_id === '346034') {
       try {
-        sendWhatsAppMessage(ticket);
-        res.json({ success: true, message: 'WhatsApp message sent successfully', ticket });
+        // Send WhatsApp message and get the ticket ID
+        const ticketId = sendWhatsAppMessage(ticket);
+        res.json({ success: true, message: 'WhatsApp message sent successfully', ticketId });
       } catch (error) {
         logger.error('Failed to send WhatsApp message:', error);
         res.status(500).json({ success: false, message: 'Failed to send WhatsApp message' });
@@ -106,9 +107,20 @@ function verifySignature(payload, signature, signingSecret) {
   return hash === signatureHash;
 }
 
+// Function to send WhatsApp message and return the ticket ID
+function sendWhatsAppMessage(ticket) {
+  // Your logic to send the WhatsApp message
+  // ...
+
+  // Return the ticket ID
+  logger.info('THE TICKET ID IS:', ticket.ticket_id);
+  return ticket.ticket_id;
+}
+
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
 });
+
 
 
 
