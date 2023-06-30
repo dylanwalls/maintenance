@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const winston = require('winston');
-const cryptoJS = require('crypto-js');
+const CryptoJS = require('crypto-js');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
