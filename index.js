@@ -68,14 +68,15 @@ app.post('/webhook', (req, res) => {
 
     // Check if the ticket is assigned to the specific team
     if (ticket.team_id === '346034') {
-      try {
-        // Send WhatsApp message and get the ticket ID
-        const ticketId = sendWhatsAppMessage(ticket);
-        res.json({ success: true, message: 'WhatsApp message sent successfully', ticketId });
-      } catch (error) {
-        logger.error('Failed to send WhatsApp message:', error);
-        res.status(500).json({ success: false, message: 'Failed to send WhatsApp message' });
-      }
+      fetchTicketInformation(ticket.ticket_id)
+        .then(ticketInfo => {
+          logger.info('Ticket Information:', JSON.stringify(ticketInfo));
+          res.json({ success: true, message: 'Ticket information retrieved successfully', ticketInfo });
+        })
+        .catch(error => {
+          logger.error('Failed to fetch ticket information:', error);
+          res.status(500).json({ success: false, message: 'Failed to fetch ticket information' });
+        });
     } else {
       res.json({ success: true, message: 'Ticket not assigned to the specific team' });
     }
@@ -119,6 +120,23 @@ function sendWhatsAppMessage(ticket) {
   logger.info('THE TICKET ID IS:', ticket.ticket_id);
   return ticket.ticket_id;
 }
+
+// Function to fetch ticket information from Trengo API based on ticket ID
+async function fetchTicketInformation(ticketId) {
+  try {
+    const response = await axios.get(`https://api.trengo.com/tickets/${ticketId}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.TRENGO_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
