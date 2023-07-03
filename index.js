@@ -143,7 +143,13 @@ async function fetchTicketInformation(ticketId) {
       }
     });
 
-    return response.data;
+    const ticketInfo = response.data;
+    // Remove the circular reference in the `socket` object
+    if (ticketInfo.socket && ticketInfo.socket._httpMessage) {
+      delete ticketInfo.socket._httpMessage;
+    }
+
+    return ticketInfo;
   } catch (error) {
     throw error;
   }
