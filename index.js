@@ -72,10 +72,12 @@ app.post('/webhook', (req, res) => {
       fetchTicketInformation(ticket.ticket_id)
         .then(ticketInfo => {
           logger.info('Ticket Information:', JSON.stringify(ticketInfo));
-          // Remove the _httpMessage property from the TLSSocket object.
-          ticketInfo.socket._httpMessage = null;
+          // Remove the _httpMessage property from the TLSSocket object (if present)
+          if (ticketInfo.socket && ticketInfo.socket._httpMessage) {
+            ticketInfo.socket._httpMessage = null;
+          }
 
-          // Serialize the `TLSSocket` object to JSON.
+          // Serialize the `ticketInfo` object to JSON.
           const json = JSON.stringify(ticketInfo);
 
           // Send the JSON response.
@@ -94,6 +96,7 @@ app.post('/webhook', (req, res) => {
     logger.error('Invalid signature, please verify the signing secret');
   }
 });
+
 
 
 // Function to verify the Trengo signature
