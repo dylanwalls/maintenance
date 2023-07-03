@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const winston = require('winston');
 const CryptoJS = require('crypto-js');
 const axios = require('axios');
+const CircularJSON = require('circular-json');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -56,6 +57,18 @@ app.post('/webhook', (req, res) => {
 
     const message = ticket && ticket.message ? ticket.message : 'New ticket received';
 
+    // Include the code for serializing the ticket object to remove circular references
+    try {
+      // Remove circular references before serializing
+      const sanitizedData = CircularJSON.stringify(ticket);
+
+      // Now you can use the sanitizedData in your application insights code
+      // Customize the code below to perform your desired action with the sanitized data
+      logger.info('Sanitized ticket data:', sanitizedData);
+    } catch (error) {
+      console.error('Failed to serialize payload:', error);
+    }
+
     logger.info('Received ticket:', JSON.stringify(ticket)); // Log the received ticket object
     logger.info('Message:', message); // Log the message
 
@@ -96,8 +109,6 @@ app.post('/webhook', (req, res) => {
     logger.error('Invalid signature, please verify the signing secret');
   }
 });
-
-
 
 // Function to verify the Trengo signature
 function verifySignature(payload, signature, signingSecret) {
@@ -158,8 +169,6 @@ async function fetchTicketInformation(ticketId) {
     throw error;
   }
 }
-
-
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
