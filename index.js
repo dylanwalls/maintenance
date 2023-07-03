@@ -143,17 +143,22 @@ async function fetchTicketInformation(ticketId) {
       }
     });
 
-    const ticketInfo = response.data;
+    let ticketInfo = response.data;
+
     // Remove the circular reference in the `socket` object
     if (ticketInfo.socket && ticketInfo.socket._httpMessage) {
       delete ticketInfo.socket._httpMessage;
     }
+
+    // Convert the ticketInfo object to JSON
+    ticketInfo = JSON.stringify(ticketInfo);
 
     return ticketInfo;
   } catch (error) {
     throw error;
   }
 }
+
 
 
 app.listen(PORT, () => {
