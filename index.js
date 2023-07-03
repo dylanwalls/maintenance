@@ -74,7 +74,7 @@ app.post('/webhook', (req, res) => {
           logger.info('Ticket Information:', JSON.stringify(ticketInfo));
           // Remove the _httpMessage property from the TLSSocket object (if present)
           if (ticketInfo.socket && ticketInfo.socket._httpMessage) {
-            ticketInfo.socket._httpMessage = null;
+            delete ticketInfo.socket_httpMessage;
           }
 
           // Serialize the `ticketInfo` object to JSON.
