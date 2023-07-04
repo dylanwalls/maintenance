@@ -227,12 +227,12 @@ app.post('/webhook', async (req, res) => {
   //   params,
   // } = req.body;
 
-  console.log('REQ.BODY:', req.body)
-  console.log('Received ticket:', streetAddress); // Log the received ticket object
+  // console.log('REQ.BODY:', req.body)
+  // console.log('Received ticket:', streetAddress); // Log the received ticket object
 
-  const ticketMessage = `New ticket received from ${yourName} at ${streetAddress}` || 'New ticket received';
+  // const ticketMessage = `New ticket received from ${yourName} at ${streetAddress}` || 'New ticket received';
 
-  console.log('Message:', ticketMessage); // Log the message
+  // console.log('Message:', ticketMessage); // Log the message
 
   try {
     await sendWhatsAppMessage(ticketMessage, ticket_id);
