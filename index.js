@@ -191,8 +191,29 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json()); // Parse JSON request body
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/webhook', async (req, res) => {
+  const {
+    ticket_id,
+    user_id,
+    user_name,
+    user_email,
+    team_id,
+    team_name,
+    assigned_to,
+  } = req.body;
+
+  console.log('Received webhook:');
+  console.log('Ticket ID:', ticket_id);
+  console.log('User ID:', user_id);
+  console.log('User Name:', user_name);
+  console.log('User Email:', user_email);
+  console.log('Team ID:', team_id);
+  console.log('Team Name:', team_name);
+  console.log('Assigned To:', assigned_to);
+
+
   // const {
   //   ticket_id,
   //   message,
