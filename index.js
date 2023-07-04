@@ -230,7 +230,7 @@ app.post('/webhook', async (req, res) => {
   // console.log('REQ.BODY:', req.body)
   // console.log('Received ticket:', streetAddress); // Log the received ticket object
 
-  const ticketMessage = `New ticket received from ${ticket_id} assigned to ${team_name}` || 'New ticket received';
+  // const ticketMessage = `New ticket received from ${ticket_id} assigned to ${team_name}` || 'New ticket received';
 
   // console.log('Message:', ticketMessage); // Log the message
 
@@ -243,7 +243,7 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-async function sendWhatsAppMessage(ticketMessage, ticketId) {
+async function sendWhatsAppMessage(ticketId) {
   console.log('Calling sendWhatsAppMessage');
 
   const options = {
@@ -261,14 +261,30 @@ async function sendWhatsAppMessage(ticketMessage, ticketId) {
     const data = await response.json();
     console.log('Ticket Result:', data);
     const ticket_info = data.custom_data;
+    const maintenanceDescription = ticket_info['maintenanceDescription'];
+    const yourName = ticket_info['yourName'];
     const streetAddress = ticket_info['streetAddress'];
     const flatLetter = ticket_info['flatLetter']
     const contact = data.contact;
     const contactNumber = contact['phone']
 
+    console.log('Maintenance description:', maintenanceDescription);
+    console.log('Your name:', yourName);
     console.log('Contact Address:', streetAddress);
     console.log('Flat:', flatLetter);
     console.log('Contact Number:', contactNumber);
+
+    const message_final = `New maintenance ticket received from ${yourName} at Flat ${flatLetter}, ${streetAddress}. Description: ${maintenanceDescription}. Please contact them for more information: ${contactNumber}.` || 'New ticket received';
+
+
+    //   2023-07-04T07:22:40.525056660Z   custom_data: {
+//   2023-07-04T07:22:40.525060661Z     'Maintenance description¨': 'Gf',
+//   2023-07-04T07:22:40.525065461Z     yourName: 'Jas',
+//   2023-07-04T07:22:40.525069461Z     streetAddress: 'Has',
+//   2023-07-04T07:22:40.525073461Z     flatLetter: 'H',
+//   2023-07-04T07:22:40.525077561Z     contactNumber: '0999999999',
+//   2023-07-04T07:22:40.525081561Z     photos: 'F'
+//   2023-07-04T07:22:40.531982805Z   },
 
     const sendMessageOptions = {
       method: 'POST',
@@ -278,7 +294,7 @@ async function sendWhatsAppMessage(ticketMessage, ticketId) {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        params: [{ key: '{{1}}', value: ticketMessage }],
+        params: [{ key: '{{1}}', value: message_final }],
         recipient_phone_number: '+27784130968',
         hsm_id: '136514' // Replace with your WhatsApp template HSM ID
       })
