@@ -257,7 +257,7 @@ async function sendWhatsAppMessage(ticketMessage, ticketId) {
 
   try {
     // Make the GET request to retrieve the ticket result
-    const response = await fetch(`https://app.trengo.com/api/v2/ticket_results/${ticketId}`, options);
+    const response = await fetch(`https://app.trengo.com/api/v2/tickets/${ticketId}`, options);
     const data = await response.json();
     console.log('Ticket Result:', data);
 
