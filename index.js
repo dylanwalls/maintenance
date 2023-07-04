@@ -230,7 +230,7 @@ app.post('/webhook', async (req, res) => {
   // console.log('REQ.BODY:', req.body)
   // console.log('Received ticket:', streetAddress); // Log the received ticket object
 
-  // const ticketMessage = `New ticket received from ${yourName} at ${streetAddress}` || 'New ticket received';
+  const ticketMessage = `New ticket received from ${ticket_id} assigned to ${team_name}` || 'New ticket received';
 
   // console.log('Message:', ticketMessage); // Log the message
 
