@@ -193,18 +193,18 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json()); // Parse JSON request body
 
 app.post('/webhook', async (req, res) => {
-  const {
-    ticket_id,
-    message,
-    streetAddress,
-    maintenanceDescription,
-    yourName,
-    flatLetter,
-    contactNumber,
-    photos,
-    team_id,
-    params,
-  } = req.body;
+  // const {
+  //   ticket_id,
+  //   message,
+  //   streetAddress,
+  //   maintenanceDescription,
+  //   yourName,
+  //   flatLetter,
+  //   contactNumber,
+  //   photos,
+  //   team_id,
+  //   params,
+  // } = req.body;
 
   console.log('REQ.BODY:', req.body)
   console.log('Received ticket:', streetAddress); // Log the received ticket object
