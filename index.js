@@ -83,6 +83,37 @@ async function sendWhatsAppMessage(ticketId) {
     console.error(error);
     throw error;
     }
+
+    const postMessageOptions = {
+      method: 'POST',
+      url: 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit',
+      headers: {
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'workspaceCode': 'MAN',
+        'recaptchaSiteKey': 'f841b521-b8fd-413e-983e-ba17dccb862d',
+        'payload': JSON.stringify({
+          'building': {
+            'id': 'ac9dd556-8a83-49e3-2393-08da6b352223',
+            'buildingNo': 'IB-0000000144',
+          },
+          'rentalUnit': {
+            'id': '10b645ee-940d-45e3-f851-08da6b35226b',
+            'refNo': 'ZAWC4935031311',
+          },
+          'contactName': 'Test Tenant',
+          'contactNumber': '0681231496',
+          'incidentDate': '2023-07-05T10:28:00Z',
+          'maintenanceDescription': 'test trengo 1',
+        }),
+      }),
+    };
+
+    const postResponse = await fetch(postMessageOptions);
+    const postData = await postResponse.json();
+    console.log('API Response:', postData);
 }
 
 app.listen(PORT, () => {
