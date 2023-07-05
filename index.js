@@ -71,7 +71,8 @@ async function sendWhatsAppMessage(ticketId) {
       },
       body: JSON.stringify({
         params: [{ key: '{{1}}', value: message_final }],
-        recipient_phone_number: '+27829447959', // Priscilla's number
+        // recipient_phone_number: '+27829447959', // Priscilla's number
+        recipient_phone_number: '+27784130968', // Dylan's number
         hsm_id: '136514' // Replace with your WhatsApp template HSM ID
       })
     };
