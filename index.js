@@ -21,7 +21,7 @@ app.post('/webhook', async (req, res) => {
   } = req.body;
 
   try {
-    await sendWhatsAppMessage(ticket_id, yourName);
+    await sendWhatsAppMessage(ticket_id);
     res.json({ success: true, message: 'WhatsApp message sent successfully', ticket: req.body });
   } catch (error) {
     console.error('Failed to send WhatsApp message:', error);
@@ -29,7 +29,7 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-async function sendWhatsAppMessage(ticketId, yourName) {
+async function sendWhatsAppMessage(ticketId) {
   console.log('Calling sendWhatsAppMessage');
 
   const options = {
@@ -41,6 +41,8 @@ async function sendWhatsAppMessage(ticketId, yourName) {
     },
   };
 
+  let yourName;
+
   try {
     // Make the GET request to retrieve the ticket result
     const response = await fetch(`https://app.trengo.com/api/v2/tickets/${ticketId}`, options);
@@ -48,7 +50,7 @@ async function sendWhatsAppMessage(ticketId, yourName) {
     console.log('Ticket Result:', data);
     const ticket_info = data.custom_data;
     const maintenanceDescription = ticket_info['maintenanceDescription'];
-    const yourName = ticket_info['yourName'];
+    yourName = ticket_info['yourName'];
     const streetAddress = ticket_info['streetAddress'];
     const flatLetter = ticket_info['flatLetter']
     const contact = data.contact;
