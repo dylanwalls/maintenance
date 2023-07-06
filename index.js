@@ -21,7 +21,7 @@ app.post('/webhook', async (req, res) => {
   } = req.body;
 
   try {
-    await sendWhatsAppMessage(ticket_id);
+    await sendWhatsAppMessage(ticket_id, yourName);
     res.json({ success: true, message: 'WhatsApp message sent successfully', ticket: req.body });
   } catch (error) {
     console.error('Failed to send WhatsApp message:', error);
@@ -29,7 +29,7 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-async function sendWhatsAppMessage(ticketId) {
+async function sendWhatsAppMessage(ticketId, yourName) {
   console.log('Calling sendWhatsAppMessage');
 
   const options = {
