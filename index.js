@@ -73,8 +73,8 @@ async function sendWhatsAppMessage(ticketId) {
       },
       body: JSON.stringify({
         params: [{ key: '{{1}}', value: message_final }],
-        // recipient_phone_number: '+27829447959', // Priscilla's number
-        recipient_phone_number: '+27784130968', // Dylan's number
+        recipient_phone_number: '+27829447959', // Priscilla's number
+        // recipient_phone_number: '+27784130968', // Dylan's number
         hsm_id: '136514' // Replace with your WhatsApp template HSM ID
       })
     };
@@ -102,14 +102,14 @@ async function sendWhatsAppMessage(ticketId) {
         'workspaceCode': 'MAN',
         'recaptchaSiteKey': 'f841b521-b8fd-413e-983e-ba17dccb862d',
         'payload': JSON.stringify({
-          'building': {
-            'id': 'ac9dd556-8a83-49e3-2393-08da6b352223',
-            'buildingNo': 'IB-0000000144',
-          },
-          'rentalUnit': {
-            'id': '10b645ee-940d-45e3-f851-08da6b35226b',
-            'refNo': 'ZAWC4935031311',
-          },
+          // 'building': {
+          //   'id': 'ac9dd556-8a83-49e3-2393-08da6b352223',
+          //   'buildingNo': 'IB-0000000144',
+          // },
+          // 'rentalUnit': {
+          //   'id': '10b645ee-940d-45e3-f851-08da6b35226b',
+          //   'refNo': 'ZAWC4935031311',
+          // },
           'unit': unit,
           'contactName': yourName,
           'contactNumber': contactNumber,
