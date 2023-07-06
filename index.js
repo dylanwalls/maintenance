@@ -85,6 +85,9 @@ async function sendWhatsAppMessage(ticketId) {
     throw error;
     }
 
+    const now = new Date();
+    const incidentDate = now.toISOString();  
+
     const postMessageOptions = {
       method: 'POST',
       url: 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit',
@@ -104,7 +107,7 @@ async function sendWhatsAppMessage(ticketId) {
             'id': '10b645ee-940d-45e3-f851-08da6b35226b',
             'refNo': 'ZAWC4935031311',
           },
-          'contactName': 'Test Tenant',
+          'contactName': yourName,
           'contactNumber': '0681231496',
           'incidentDate': '2023-07-05T10:28:00Z',
           'maintenanceDescription': 'test trengo 1',
