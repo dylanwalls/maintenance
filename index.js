@@ -41,7 +41,7 @@ async function sendWhatsAppMessage(ticketId) {
     },
   };
 
-  let yourName;
+  let maintenanceDescription, yourName, streetAddress, flatLetter, contactNumber;
 
   try {
     // Make the GET request to retrieve the ticket result
@@ -49,12 +49,12 @@ async function sendWhatsAppMessage(ticketId) {
     const data = await response.json();
     console.log('Ticket Result:', data);
     const ticket_info = data.custom_data;
-    const maintenanceDescription = ticket_info['maintenanceDescription'];
+    maintenanceDescription = ticket_info['maintenanceDescription'];
     yourName = ticket_info['yourName'];
-    const streetAddress = ticket_info['streetAddress'];
-    const flatLetter = ticket_info['flatLetter']
+    streetAddress = ticket_info['streetAddress'];
+    flatLetter = ticket_info['flatLetter']
     const contact = data.contact;
-    const contactNumber = contact['phone']
+    contactNumber = contact['phone']
 
     console.log('Maintenance description:', maintenanceDescription);
     console.log('Your name:', yourName);
@@ -89,6 +89,7 @@ async function sendWhatsAppMessage(ticketId) {
 
     const now = new Date();
     const incidentDate = now.toISOString();  
+    unit = flatLetter + streetAddress;
 
     const postMessageOptions = {
       method: 'POST',
@@ -109,10 +110,11 @@ async function sendWhatsAppMessage(ticketId) {
             'id': '10b645ee-940d-45e3-f851-08da6b35226b',
             'refNo': 'ZAWC4935031311',
           },
+          'unit': unit,
           'contactName': yourName,
-          'contactNumber': '0681231496',
-          'incidentDate': '2023-07-05T10:28:00Z',
-          'maintenanceDescription': 'test trengo 1',
+          'contactNumber': contactNumber,
+          'incidentDate': incidentDate,
+          'maintenanceDescription': maintenanceDescription,
         }),
       }),
     };
