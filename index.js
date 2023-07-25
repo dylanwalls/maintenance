@@ -24,8 +24,8 @@ app.post('/webhook', async (req, res) => {
     await sendWhatsAppMessage(ticket_id);
     return res.json({ success: true, message: 'WhatsApp message sent successfully', ticket: req.body });
   } catch (error) {
-    return console.error('Failed to send WhatsApp message:', error);
-    res.status(500).json({ success: false, message: 'Failed to send WhatsApp message' });
+    console.error('Failed to send WhatsApp message:', error);
+    return res.status(500).json({ success: false, message: 'Failed to send WhatsApp message' });
   }
 });
 
@@ -73,8 +73,8 @@ async function sendWhatsAppMessage(ticketId) {
       },
       body: JSON.stringify({
         params: [{ key: '{{1}}', value: message_final }],
-        // recipient_phone_number: '+27829447959', // Priscilla's number
-        recipient_phone_number: '+27784130968', // Dylan's number
+        recipient_phone_number: '+27829447959', // Priscilla's number
+        // recipient_phone_number: '+27784130968', // Dylan's number
         hsm_id: '136514' // Replace with your WhatsApp template HSM ID
       })
     };
