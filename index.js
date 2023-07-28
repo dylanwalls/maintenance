@@ -21,6 +21,7 @@ app.post('/webhook', async (req, res) => {
   } = req.body;
 
   // Check if the ticket is assigned to 'Maintenance'
+  console.log('ASSIGNED TO: ', assigned_to)
   if (assigned_to !== 'Maintenance') {
     console.log('Ticket not assigned to Maintenance. Skipping script.');
     return res.json({ success: true, message: 'Ticket not assigned to Maintenance. No action required.' });
