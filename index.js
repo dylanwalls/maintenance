@@ -21,9 +21,10 @@ app.post('/webhook', async (req, res) => {
   } = req.body;
 
   // Check if the ticket is assigned to 'Maintenance'
-  console.log('ASSIGNED TO: ', assigned_to);
-  console.log("HEY");
-  console.log("REQ BODY: ", req.body)
+  if (team_id !== '346034') {
+    console.log('Ticket not assigned to Maintenance. Skipping script.');
+    return res.json({ success: true, message: 'Ticket not assigned to Maintenance. No action required.' });
+  }
 
   try {
     await sendWhatsAppMessage(ticket_id);
@@ -87,7 +88,6 @@ async function sendWhatsAppMessage(ticketId) {
     const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
     const sendData = await sendResponse.json();
     console.log('API Response:', sendData);
-    console.log('ASSIGNED TO: ', req.body.assigned_to);
   } catch (error) {
     console.error(error);
     throw error;
@@ -128,7 +128,6 @@ async function sendWhatsAppMessage(ticketId) {
     const postResponse = await fetch(postMessageOptions.url, postMessageOptions);
     const postData = await postResponse.json();
     console.log('API Response:', postData);
-    console.log('Req body: ', req.body);
 }
 
 app.listen(PORT, () => {
