@@ -128,6 +128,7 @@ async function sendWhatsAppMessage(ticketId) {
     const postResponse = await fetch(postMessageOptions.url, postMessageOptions);
     const postData = await postResponse.json();
     console.log('API Response:', postData);
+    console.log('Req body: ', req.body);
 }
 
 app.listen(PORT, () => {
