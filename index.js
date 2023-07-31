@@ -23,7 +23,7 @@ app.post('/webhook', async (req, res) => {
   // Check if the ticket is assigned to 'Maintenance'
   console.log('ASSIGNED TO: ', assigned_to);
   console.log("HEY");
- 
+  console.log("REQ BODY: ", req.body)
 
   try {
     await sendWhatsAppMessage(ticket_id);
@@ -87,6 +87,7 @@ async function sendWhatsAppMessage(ticketId) {
     const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
     const sendData = await sendResponse.json();
     console.log('API Response:', sendData);
+    console.log('ASSIGNED TO: ', req.body.assigned_to);
   } catch (error) {
     console.error(error);
     throw error;
