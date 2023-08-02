@@ -93,21 +93,8 @@ async function sendWhatsAppMessage(ticketId) {
     throw error;
     }
 
-    // const now = new Date();
-    // const incidentDate = now.toISOString();  
-
     const now = new Date();
-    const dateOptions = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    };
-
-    const incidentDate = now.toLocaleString('en-US', dateOptions);
-    console.log(incidentDate);
-
+    const incidentDate = now.toISOString();  
     unit = flatLetter + streetAddress;
 
     const postMessageOptions = {
