@@ -71,7 +71,12 @@ async function sendWhatsAppMessage(ticketId) {
     console.log('Flat:', flatLetter);
     console.log('Contact Number:', contactNumber);
 
-    const message_final = `${yourName} at Flat ${flatLetter}, ${streetAddress}. Contact: ${contactNumber}. Description: ${maintenanceDescription}.` || 'New ticket received';
+    const { DateTime } = require('luxon');
+    const now2 = DateTime.local().setZone('Africa/Johannesburg');
+    const formattedIncidentDate = now2.toFormat('dd/MM/yyyy HH:mm');
+
+
+    const message_final = `\n\nName: ${yourName}\nFlat: ${flatLetter}\nAddress: ${streetAddress}\nContact number: ${contactNumber}\nDescription: ${maintenanceDescription}.\n\nSubmitted at ${formattedIncidentDate}` || 'New ticket received';
 
     const sendMessageOptions = {
       method: 'POST',
@@ -96,9 +101,7 @@ async function sendWhatsAppMessage(ticketId) {
     throw error;
     }
 
-    const { DateTime } = require('luxon');
-    const now2 = DateTime.local().setZone('Africa/Johannesburg');
-    const formattedIncidentDate = now2.toFormat('dd/MM/yyyy HH:mm');
+
     const now = new Date();
     const incidentDate = now.toISOString();
 
