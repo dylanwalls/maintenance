@@ -96,8 +96,12 @@ async function sendWhatsAppMessage(ticketId) {
     throw error;
     }
 
+    const { DateTime } = require('luxon');
+    const now2 = DateTime.local().setZone('Africa/Johannesburg');
+    const formattedIncidentDate = now2.toFormat('dd/MM/yyyy HH:mm');
     const now = new Date();
-    const incidentDate = now.toISOString();  
+    const incidentDate = now.toISOString();
+
     const timeOptions = {
       year: 'numeric',
       month: '2-digit',
@@ -105,8 +109,7 @@ async function sendWhatsAppMessage(ticketId) {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false
-    };
-    const formattedIncidentDate = now.toLocaleString('en-GB', timeOptions).replace(',', '');
+    }; 
     
     unit = flatLetter + streetAddress;
     const url = 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit';
