@@ -10,6 +10,7 @@ app.use(bodyParser.json()); // Parse JSON request body
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/webhook', async (req, res) => {
+  console.log('Webhook received');
   const {
     ticket_id,
     user_id,
@@ -27,7 +28,9 @@ app.post('/webhook', async (req, res) => {
   }
 
   try {
+    console.log('Calling sendWhatsAppMessage');
     await sendWhatsAppMessage(ticket_id);
+    console.log('sendWhatsAppMessage completed');
     return res.json({ success: true, message: 'WhatsApp message sent successfully', ticket: req.body });
   } catch (error) {
     console.error('Failed to send WhatsApp message:', error);
