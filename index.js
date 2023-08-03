@@ -104,6 +104,9 @@ async function sendWhatsAppMessage(ticketId) {
 
     const now = new Date();
     const incidentDate = now.toISOString();
+    const { DateTime } = require('luxon');
+    const now2 = DateTime.local().setZone('Africa/Johannesburg');
+    const formattedIncidentDate2 = now.toFormat('dd/MM/yyyy HH:mm');
 
     const timeOptions = {
       year: 'numeric',
@@ -139,7 +142,7 @@ async function sendWhatsAppMessage(ticketId) {
           'contactNumber': contactNumber,
           'incidentDate': incidentDate,
           'maintenanceDescription': maintenanceDescription,
-          'dateAndTime': formattedIncidentDate,
+          'dateAndTime': formattedIncidentDate2,
         }),
       }),
     };
