@@ -96,10 +96,9 @@ async function sendWhatsAppMessage(ticketId) {
     const now = new Date();
     const incidentDate = now.toISOString();  
     unit = flatLetter + streetAddress;
-
+    const url = 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit';
     const postMessageOptions = {
       method: 'POST',
-      url: 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit',
       headers: {
         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTFkZjRkMDE2MjgzYTE1YjI4NDY3YjAyNGQzNDdkZjBkN2YyNWZmMjBkNzA0MmU1NDYyYTU1OTM0YjVlYjNlMmM5M2IyZmY4NDFmYWViNGMiLCJpYXQiOjE2ODgzOTYyMDIuMzI0NTI5LCJuYmYiOjE2ODgzOTYyMDIuMzI0NTMxLCJleHAiOjQ4MTI1MzM4MDIuMzE0MzY1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.MGKjhmw8mY-6tji1z4rsOG_9BTLTYasN6vgTNUjiFUeukAMz0sSTz4sFtifzV2L5Go4JIBooGYLeaKQfFIMHEA',
         'Content-Type': 'application/json',
@@ -125,7 +124,7 @@ async function sendWhatsAppMessage(ticketId) {
       }),
     };
 
-    const postResponse = await fetch(postMessageOptions.url, postMessageOptions);
+    const postResponse = await fetch(url, postMessageOptions);
     // const postData = await postResponse.json();
     // console.log('API Response:', postData);
 }
