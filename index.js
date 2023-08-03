@@ -98,6 +98,16 @@ async function sendWhatsAppMessage(ticketId) {
 
     const now = new Date();
     const incidentDate = now.toISOString();  
+    const timeOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    };
+    const formattedIncidentDate = now.toLocaleString('en-GB', timeOptions).replace(',', '');
+    
     unit = flatLetter + streetAddress;
     const url = 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit';
     const postMessageOptions = {
@@ -123,6 +133,7 @@ async function sendWhatsAppMessage(ticketId) {
           'contactNumber': contactNumber,
           'incidentDate': incidentDate,
           'maintenanceDescription': maintenanceDescription,
+          'dateAndTime': formattedIncidentDate,
         }),
       }),
     };
