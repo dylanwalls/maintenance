@@ -76,7 +76,7 @@ async function sendWhatsAppMessage(ticketId) {
     const formattedIncidentDate = now2.toFormat('dd/MM/yyyy HH:mm');
 
 
-    const message_final = `\n\nName: ${yourName}\nFlat: ${flatLetter}\nAddress: ${streetAddress}\nContact number: ${contactNumber}\nDescription: ${maintenanceDescription}.\n\nSubmitted at ${formattedIncidentDate}` || 'New ticket received';
+    const message_final = `Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
 
     const sendMessageOptions = {
       method: 'POST',
