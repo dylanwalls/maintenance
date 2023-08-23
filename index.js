@@ -117,7 +117,7 @@ async function sendWhatsAppMessage(ticketId) {
       hour12: false
     }; 
     
-    unit = flatLetter + streetAddress;
+    unit = 'Flat ' + flatLetter + ', ' + streetAddress;
     const url = 'https://za-living-api-pub-01.indlu.co/public/api/external/workspace/endpoint/Submit';
     const postMessageOptions = {
       method: 'POST',
