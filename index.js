@@ -1,13 +1,57 @@
+// const express = require('express');
+// const sgMail = require('@sendgrid/mail');
+
+// sgMail.setApiKey('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');
+
+// const app = express();
+// const port = 3000; // You can change this to any port you prefer
+
+// // Middleware to parse JSON request bodies
+// app.use(express.json());
+
+// app.post('/send-email', async (req, res) => {
+//   try {
+//     const msg = {
+//       to: 'dyl.w@hotmail.com',
+//       from: 'dylan.walls@bitprop.com', // Replace with your sender email
+//       subject: 'Your Subject Here',
+//       text: 'This is the email body.',
+//     };
+//     sgMail
+//       .send(msg)
+//       .then(() => {
+//         console.log('Email sent successfully');
+//       })
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'An error occurred' });
+//   }
+// });
+
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
+
+
+
+
+
+
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey('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');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json()); // Parse JSON request body
 app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware to parse JSON request bodies
+app.use(express.json());
 
 app.post('/webhook', async (req, res) => {
   console.log('Webhook received');
@@ -153,7 +197,23 @@ async function sendWhatsAppMessage(ticketId) {
 
     const postResponse = await fetch(url, postMessageOptions);
     // const postData = await postResponse.json();
-    // console.log('API Response:', postData);
+    console.log('API Response:', psotResponse);
+    try {
+      const msg = {
+        to: 'dyl.w@hotmail.com',
+        from: 'dylan.walls@bitprop.com', // Replace with your sender email
+        subject: 'Your Subject Here',
+        text: 'This is the email body.',
+      };
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent successfully');
+        })
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
 }
 
 app.listen(PORT, () => {
