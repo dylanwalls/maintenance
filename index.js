@@ -77,29 +77,33 @@ async function sendWhatsAppMessage(ticketId) {
 
 
     const message_final = `Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
+    const recipients = ['+27784130968', '+27798736273', '+27798338905'];
 
-    const sendMessageOptions = {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTFkZjRkMDE2MjgzYTE1YjI4NDY3YjAyNGQzNDdkZjBkN2YyNWZmMjBkNzA0MmU1NDYyYTU1OTM0YjVlYjNlMmM5M2IyZmY4NDFmYWViNGMiLCJpYXQiOjE2ODgzOTYyMDIuMzI0NTI5LCJuYmYiOjE2ODgzOTYyMDIuMzI0NTMxLCJleHAiOjQ4MTI1MzM4MDIuMzE0MzY1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.MGKjhmw8mY-6tji1z4rsOG_9BTLTYasN6vgTNUjiFUeukAMz0sSTz4sFtifzV2L5Go4JIBooGYLeaKQfFIMHEA',
-        'accept': 'application/json',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        params: [{ key: '{{1}}', value: message_final }],
-        recipient_phone_number: '+27798338905', // Phumlani's number
-        // recipient_phone_number: '+27784130968', // Dylan's number
-        hsm_id: '136514' // Replace with your WhatsApp template HSM ID
-      })
-    };
+    for (const recipient_phone of recipients) {
+      const sendMessageOptions = {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTFkZjRkMDE2MjgzYTE1YjI4NDY3YjAyNGQzNDdkZjBkN2YyNWZmMjBkNzA0MmU1NDYyYTU1OTM0YjVlYjNlMmM5M2IyZmY4NDFmYWViNGMiLCJpYXQiOjE2ODgzOTYyMDIuMzI0NTI5LCJuYmYiOjE2ODgzOTYyMDIuMzI0NTMxLCJleHAiOjQ4MTI1MzM4MDIuMzE0MzY1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.MGKjhmw8mY-6tji1z4rsOG_9BTLTYasN6vgTNUjiFUeukAMz0sSTz4sFtifzV2L5Go4JIBooGYLeaKQfFIMHEA',
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          params: [{ key: '{{1}}', value: message_final }],
+          recipient_phone_number: recipient_phone, // Phumlani's number
+          // recipient_phone_number: '+27784130968', // Dylan's number
+          hsm_id: '141551' // Replace with your WhatsApp template HSM ID
+        })
+      };
 
-    const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
-    const sendData = await sendResponse.json();
-    console.log('API Response:', sendData);
+      const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
+      const sendData = await sendResponse.json();
+      console.log('API Response:', sendData);
+    }
   } catch (error) {
     console.error(error);
     throw error;
     }
+
 
 
     const now = new Date();
