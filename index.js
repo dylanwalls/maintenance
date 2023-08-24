@@ -43,7 +43,7 @@ const bodyParser = require('body-parser');
 const fetch = require('isomorphic-fetch');
 const sgMail = require('@sendgrid/mail');
 
-sgMail.setApiKey('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');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
