@@ -197,7 +197,7 @@ async function sendWhatsAppMessage(ticketId) {
 
     const postResponse = await fetch(url, postMessageOptions);
     // const postData = await postResponse.json();
-    console.log('API Response:', psotResponse);
+    console.log('API Response:', postResponse);
     try {
       const msg = {
         to: 'dyl.w@hotmail.com',
