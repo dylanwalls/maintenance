@@ -121,7 +121,7 @@ async function sendWhatsAppMessage(ticketId) {
 
 
     const message_final = `Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
-    const recipients = ['+27683427184', '+27798736273', '+27798338905']; // Buhle, Dylan Bitprop, Phumlani
+    const recipients = ['+27683427184', '+27798338905']; // Buhle, Phumlani
 
     for (const recipient_phone of recipients) {
       const sendMessageOptions = {
@@ -201,7 +201,7 @@ async function sendWhatsAppMessage(ticketId) {
     const refNo = postData.refNo;
     try {
       const msg = {
-        to: 'dyl.w@hotmail.com',
+        to: 'jon.fisher@bitprop.com',
         from: 'dylan.walls@bitprop.com', // Replace with your sender email
         subject: refNo + ': New maintenance ticket logged at ' + formattedIncidentDate2,
         text: `
