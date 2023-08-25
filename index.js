@@ -198,12 +198,20 @@ async function sendWhatsAppMessage(ticketId) {
     const postResponse = await fetch(url, postMessageOptions);
     const postData = await postResponse.json();
     console.log('API Response:', postData);
+    const refNo = postData.refNo;
     try {
       const msg = {
         to: 'dyl.w@hotmail.com',
         from: 'dylan.walls@bitprop.com', // Replace with your sender email
-        subject: 'Your Subject Here',
-        text: 'This is the email body.',
+        subject: refNo + ': New maintenance ticket logged',
+        text: `
+        Address: ${streetAddress}
+        Unit: ${flatLetter}
+        Name: ${yourName}
+        Contact number: ${contactNumber}
+
+        Description: ${maintenanceDescription}
+        `,
       };
       sgMail
         .send(msg)
