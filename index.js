@@ -203,7 +203,7 @@ async function sendWhatsAppMessage(ticketId) {
       const msg = {
         to: 'dyl.w@hotmail.com',
         from: 'dylan.walls@bitprop.com', // Replace with your sender email
-        subject: refNo + ': New maintenance ticket logged',
+        subject: refNo + ': New maintenance ticket logged at ' + formattedIncidentDate2,
         text: `
         Address: ${streetAddress}
         Unit: ${flatLetter}
