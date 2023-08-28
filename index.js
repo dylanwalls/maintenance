@@ -119,37 +119,6 @@ async function sendWhatsAppMessage(ticketId) {
     const now2 = DateTime.local().setZone('Africa/Johannesburg');
     const formattedIncidentDate = now2.toFormat('dd/MM/yyyy HH:mm');
 
-
-    const message_final = `Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
-    const recipients = ['+27683427184', '+27798338905']; // Buhle, Phumlani
-
-    for (const recipient_phone of recipients) {
-      const sendMessageOptions = {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTFkZjRkMDE2MjgzYTE1YjI4NDY3YjAyNGQzNDdkZjBkN2YyNWZmMjBkNzA0MmU1NDYyYTU1OTM0YjVlYjNlMmM5M2IyZmY4NDFmYWViNGMiLCJpYXQiOjE2ODgzOTYyMDIuMzI0NTI5LCJuYmYiOjE2ODgzOTYyMDIuMzI0NTMxLCJleHAiOjQ4MTI1MzM4MDIuMzE0MzY1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.MGKjhmw8mY-6tji1z4rsOG_9BTLTYasN6vgTNUjiFUeukAMz0sSTz4sFtifzV2L5Go4JIBooGYLeaKQfFIMHEA',
-          'accept': 'application/json',
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          params: [{ key: '{{1}}', value: message_final }],
-          recipient_phone_number: recipient_phone, // Phumlani's number
-          // recipient_phone_number: '+27784130968', // Dylan's number
-          hsm_id: '141551' // Replace with your WhatsApp template HSM ID
-        })
-      };
-
-      const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
-      const sendData = await sendResponse.json();
-      console.log('API Response:', sendData);
-    }
-  } catch (error) {
-    console.error(error);
-    throw error;
-    }
-
-
-
     const now = new Date();
     const incidentDate = now.toISOString();
     const { DateTime } = require('luxon');
@@ -222,6 +191,39 @@ async function sendWhatsAppMessage(ticketId) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred' });
     }
+
+
+    const message_final = `New ticket: ${refNo} - Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
+    const recipients = ['+27683427184', '+27798338905']; // Buhle, Phumlani
+
+    for (const recipient_phone of recipients) {
+      const sendMessageOptions = {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTFkZjRkMDE2MjgzYTE1YjI4NDY3YjAyNGQzNDdkZjBkN2YyNWZmMjBkNzA0MmU1NDYyYTU1OTM0YjVlYjNlMmM5M2IyZmY4NDFmYWViNGMiLCJpYXQiOjE2ODgzOTYyMDIuMzI0NTI5LCJuYmYiOjE2ODgzOTYyMDIuMzI0NTMxLCJleHAiOjQ4MTI1MzM4MDIuMzE0MzY1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.MGKjhmw8mY-6tji1z4rsOG_9BTLTYasN6vgTNUjiFUeukAMz0sSTz4sFtifzV2L5Go4JIBooGYLeaKQfFIMHEA',
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          params: [{ key: '{{1}}', value: message_final }],
+          recipient_phone_number: recipient_phone, // Phumlani's number
+          // recipient_phone_number: '+27784130968', // Dylan's number
+          hsm_id: '141551' // Replace with your WhatsApp template HSM ID
+        })
+      };
+
+      const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
+      const sendData = await sendResponse.json();
+      console.log('API Response:', sendData);
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+    }
+
+
+
+    
 }
 
 app.listen(PORT, () => {
