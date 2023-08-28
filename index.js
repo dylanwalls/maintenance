@@ -121,7 +121,6 @@ async function sendWhatsAppMessage(ticketId) {
 
     const now = new Date();
     const incidentDate = now.toISOString();
-    const { DateTime } = require('luxon');
     const now3 = DateTime.local().setZone('Africa/Johannesburg');
     const formattedIncidentDate2 = now3.toFormat('dd/MM/yyyy HH:mm');
 
