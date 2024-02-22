@@ -1,42 +1,3 @@
-// const express = require('express');
-// const sgMail = require('@sendgrid/mail');
-
-// sgMail.setApiKey('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');
-
-// const app = express();
-// const port = 3000; // You can change this to any port you prefer
-
-// // Middleware to parse JSON request bodies
-// app.use(express.json());
-
-// app.post('/send-email', async (req, res) => {
-//   try {
-//     const msg = {
-//       to: 'dyl.w@hotmail.com',
-//       from: 'dylan.walls@bitprop.com', // Replace with your sender email
-//       subject: 'Your Subject Here',
-//       text: 'This is the email body.',
-//     };
-//     sgMail
-//       .send(msg)
-//       .then(() => {
-//         console.log('Email sent successfully');
-//       })
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'An error occurred' });
-//   }
-// });
-
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
-
-
-
-
-
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -169,7 +130,11 @@ async function sendWhatsAppMessage(ticketId) {
     const refNo = postData.refNo;
     try {
       const msg = {
-        to: 'jon.fisher@bitprop.com',
+        to: [
+          'jon.fisher@bitprop.com',
+          'buhle.gqola@bitprop.com',
+          'phumlani.tyali@bitprop.com'
+        ], // Array of recipients
         from: 'dylan.walls@bitprop.com', // Replace with your sender email
         subject: refNo + ': New maintenance ticket logged at ' + formattedIncidentDate2,
         text: `
@@ -182,7 +147,7 @@ async function sendWhatsAppMessage(ticketId) {
         `,
       };
       sgMail
-        .send(msg)
+        .sendMultiple(msg)
         .then(() => {
           console.log('Email sent successfully');
         })
