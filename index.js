@@ -158,7 +158,7 @@ async function sendWhatsAppMessage(ticketId) {
 
 
     const message_final = `New ticket: ${refNo} - Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
-    const recipients = ['+27683427184', '+27798338905']; // Buhle, Phumlani
+    const recipients = ['+27798338905']; // Buhle, Phumlani
 
     for (const recipient_phone of recipients) {
       const sendMessageOptions = {
@@ -180,11 +180,37 @@ async function sendWhatsAppMessage(ticketId) {
       const sendData = await sendResponse.json();
       console.log('API Response:', sendData);
     }
+
+    const newRecipients = ['+27784130968']; // Dylan
+    for (const new_recipient_phone of newRecipients) {
+      // New API call for a different template message
+      const newMessageOptions = {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTFkZjRkMDE2MjgzYTE1YjI4NDY3YjAyNGQzNDdkZjBkN2YyNWZmMjBkNzA0MmU1NDYyYTU1OTM0YjVlYjNlMmM5M2IyZmY4NDFmYWViNGMiLCJpYXQiOjE2ODgzOTYyMDIuMzI0NTI5LCJuYmYiOjE2ODgzOTYyMDIuMzI0NTMxLCJleHAiOjQ4MTI1MzM4MDIuMzE0MzY1LCJzdWIiOiI2MDY4NTQiLCJzY29wZXMiOltdfQ.MGKjhmw8mY-6tji1z4rsOG_9BTLTYasN6vgTNUjiFUeukAMz0sSTz4sFtifzV2L5Go4JIBooGYLeaKQfFIMHEA',
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          params: [
+            { key: '{{1}}', value: '111' }
+          ],
+          recipient_phone_number: new_recipient_phone,
+          hsm_id: '158917' // New WhatsApp template HSM ID
+        })
+      };
+
+      const newSendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', newMessageOptions);
+      const newSendData = await newSendResponse.json();
+      console.log('New API Response:', newSendData);
+    }
+
   } catch (error) {
     console.error(error);
     throw error;
-    }
+  }
 
+  
 
 
     
