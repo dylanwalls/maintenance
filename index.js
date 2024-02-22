@@ -181,7 +181,7 @@ async function sendWhatsAppMessage(ticketId) {
       console.log('API Response:', sendData);
     }
 
-    const newRecipients = ['+27784130968']; // Dylan
+    const newRecipients = [contactNumber]; // Dylan
     for (const new_recipient_phone of newRecipients) {
       // New API call for a different template message
       const newMessageOptions = {
@@ -193,7 +193,7 @@ async function sendWhatsAppMessage(ticketId) {
         },
         body: JSON.stringify({
           params: [
-            { key: '{{1}}', value: '111' }
+            { key: '{{1}}', value: refNo }
           ],
           recipient_phone_number: new_recipient_phone,
           hsm_id: '158917' // New WhatsApp template HSM ID
