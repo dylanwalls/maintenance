@@ -158,7 +158,7 @@ async function sendWhatsAppMessage(ticketId) {
 
 
     const message_final = `New ticket: ${refNo} - Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
-    const recipients = ['+27798338905']; // Buhle, Phumlani
+    const recipients = ['+27798338905', '+27761787092']; // Buhle, Phumlani
 
     for (const recipient_phone of recipients) {
       const sendMessageOptions = {
