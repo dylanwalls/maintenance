@@ -215,11 +215,6 @@ async function sendWhatsAppMessage(ticketId) {
 
   
   async function createClickUpTask(refNo, yourName, flatLetter, streetAddress, contactNumber, maintenanceDescription, formattedIncidentDate) {
-    const query = new URLSearchParams({
-      custom_task_ids: 'true',
-      team_id: '123'
-    }).toString();
-  
     const listId = '901505766535';
     const taskOptions = {
       method: 'POST',
@@ -240,7 +235,7 @@ async function sendWhatsAppMessage(ticketId) {
     };
   
     try {
-      const resp = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`);
+      const resp = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`, taskOptions);
       const data = await resp.json();
       console.log('ClickUp Task Created:', data);
     } catch (error) {
