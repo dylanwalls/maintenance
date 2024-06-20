@@ -240,7 +240,7 @@ async function sendWhatsAppMessage(ticketId) {
     };
   
     try {
-      const resp = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task?${query}`, taskOptions);
+      const resp = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`);
       const data = await resp.json();
       console.log('ClickUp Task Created:', data);
     } catch (error) {
