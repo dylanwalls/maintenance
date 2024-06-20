@@ -205,13 +205,48 @@ async function sendWhatsAppMessage(ticketId) {
       console.log('New API Response:', newSendData);
     }
 
+    // Call the createClickUpTask function here
+    await createClickUpTask(refNo, yourName, flatLetter, streetAddress, contactNumber, maintenanceDescription, formattedIncidentDate);
+
   } catch (error) {
     console.error(error);
     throw error;
   }
 
   
-
+  async function createClickUpTask(refNo, yourName, flatLetter, streetAddress, contactNumber, maintenanceDescription, formattedIncidentDate) {
+    const query = new URLSearchParams({
+      custom_task_ids: 'true',
+      team_id: '123'
+    }).toString();
+  
+    const listId = '901505766535';
+    const taskOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer pk_96113342_HH2MM7VV1XBZT1WXT1UIS92WBOELBEON'
+      },
+      body: JSON.stringify({
+        name: `Maintenance: ${refNo}`,
+        description: `Description: ${maintenanceDescription}\nName: ${yourName}\nFlat: ${flatLetter}\nAddress: ${streetAddress}\nContact number: ${contactNumber}\nSubmitted at: ${formattedIncidentDate}`,
+        markdown_description: `**Description**: ${maintenanceDescription}\n**Name**: ${yourName}\n**Flat**: ${flatLetter}\n**Address**: ${streetAddress}\n**Contact number**: ${contactNumber}\n**Submitted at**: ${formattedIncidentDate}`,
+        assignees: [183], // Adjust as needed
+        archived: false,
+        tags: ['maintenance'],
+        status: 'Open',
+        priority: 3
+      })
+    };
+  
+    try {
+      const resp = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task?${query}`, taskOptions);
+      const data = await resp.json();
+      console.log('ClickUp Task Created:', data);
+    } catch (error) {
+      console.error('Failed to create ClickUp task:', error);
+    }
+  }
 
     
 }
