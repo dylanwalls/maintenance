@@ -229,7 +229,7 @@ async function sendWhatsAppMessage(ticketId) {
         assignees: [183], // Adjust as needed
         archived: false,
         tags: ['maintenance'],
-        status: 'Open',
+        status: 'new',
         priority: 3
       })
     };
