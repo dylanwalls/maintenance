@@ -220,7 +220,7 @@ async function sendWhatsAppMessage(ticketId) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer pk_96113342_HH2MM7VV1XBZT1WXT1UIS92WBOELBEON'
+        'Authorization': 'pk_96113342_HH2MM7VV1XBZT1WXT1UIS92WBOELBEON'
       },
       body: JSON.stringify({
         name: `Maintenance: ${refNo}`,
