@@ -133,7 +133,8 @@ async function sendWhatsAppMessage(ticketId) {
         to: [
           'jon.fisher@bitprop.com',
           'buhle.gqola@bitprop.com',
-          'phumlani.tyali@bitprop.com'
+          'phumlani.tyali@bitprop.com',
+          'ziyanda.mjobo@bitprop.com'
         ], // Array of recipients
         from: 'dylan.walls@bitprop.com', // Replace with your sender email
         subject: refNo + ': New maintenance ticket logged at ' + formattedIncidentDate2,
