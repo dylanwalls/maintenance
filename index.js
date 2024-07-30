@@ -133,7 +133,8 @@ async function sendWhatsAppMessage(ticketId) {
         to: [
           'jon.fisher@bitprop.com',
           'buhle.gqola@bitprop.com',
-          'phumlani.tyali@bitprop.com'
+          'phumlani.tyali@bitprop.com',
+          'ziyanda.mjobo@bitprop.com'
         ], // Array of recipients
         from: 'dylan.walls@bitprop.com', // Replace with your sender email
         subject: refNo + ': New maintenance ticket logged at ' + formattedIncidentDate2,
@@ -220,17 +221,24 @@ async function sendWhatsAppMessage(ticketId) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer pk_96113342_HH2MM7VV1XBZT1WXT1UIS92WBOELBEON'
+        'Authorization': 'pk_96113342_HH2MM7VV1XBZT1WXT1UIS92WBOELBEON'
       },
       body: JSON.stringify({
         name: `Maintenance: ${refNo}`,
         description: `Description: ${maintenanceDescription}\nName: ${yourName}\nFlat: ${flatLetter}\nAddress: ${streetAddress}\nContact number: ${contactNumber}\nSubmitted at: ${formattedIncidentDate}`,
         markdown_description: `**Description**: ${maintenanceDescription}\n**Name**: ${yourName}\n**Flat**: ${flatLetter}\n**Address**: ${streetAddress}\n**Contact number**: ${contactNumber}\n**Submitted at**: ${formattedIncidentDate}`,
-        assignees: [183], // Adjust as needed
+        assignees: [88675162], // Adjust as needed
         archived: false,
         tags: ['maintenance'],
-        status: 'Open',
-        priority: 3
+        status: 'new',
+        priority: 3,
+        custom_fields: [
+          {id: '411fafdd-3b7f-4d34-b325-4333d3d7c495', value: maintenanceDescription}, // Description
+          {id: 'e433727d-e329-4064-aa06-2ace4bb0272b', value: yourName}, // Name
+          {id: '0ad0a9b1-2dfb-4051-a36b-88f09059b82d', value: `Flat ${flatLetter}, ${streetAddress}`}, // Address
+          {id: '3830ffc2-a7a8-4236-b538-7dd9eba9417c', value: contactNumber}, // Phone Number
+          {id: 'dc22d3f2-c4db-481d-81a0-ffaa65758b1b', value: formattedIncidentDate} // Incident Date
+        ]
       })
     };
   
