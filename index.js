@@ -196,7 +196,7 @@ async function sendWhatsAppMessage(ticketId) {
             { key: '{{1}}', value: refNo }
           ],
           recipient_phone_number: new_recipient_phone,
-          hsm_id: '158917' // New WhatsApp template HSM ID
+          hsm_id: '173836' // New WhatsApp template HSM ID 158917
         })
       };
 
