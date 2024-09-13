@@ -158,29 +158,44 @@ async function sendWhatsAppMessage(ticketId) {
     }
 
 
-    const message_final = `New ticket: ${refNo} - Name: ${yourName}, Flat: ${flatLetter}, Address: ${streetAddress}, Contact number: ${contactNumber}, Description: ${maintenanceDescription}. Submitted at ${formattedIncidentDate}` || 'New ticket received';
-    const recipients = ['+27798338905', '+27761787092']; // Buhle, Phumlani
+    // const recipients = ['+27798338905', '+27761787092']; // Buhle, Phumlani
+    const recipients = ['27784130968'];
 
+    const TWILIO_ACCOUNT_SID = 'ACbfce5b108d7c1f1f397b7dd9005c531a';  // Replace with your Twilio Account SID
+    const TWILIO_AUTH_TOKEN = '1ed7c14442b746ac4f7652f9c2fa2681';    // Replace with your Twilio Auth Token
+
+    // Template variables for each recipient
     for (const recipient_phone of recipients) {
       const sendMessageOptions = {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjdjZjk5YmM5ZGFlODQ2Zjg5MzA0YzBmYzRmMWI5NWYwMWE4MjRjMDVkZDAxY2M3ZDlkY2FlMDEzZTIxOWM4ZDVlNzE3OTNlYThmOTE4ZTciLCJpYXQiOjE3MDk1NTY3MzAuMjE4OTE4LCJuYmYiOjE3MDk1NTY3MzAuMjE4OTIsImV4cCI6NDgzMzYwNzkzMC4yMTA0MzQsInN1YiI6IjYwNjg1NCIsInNjb3BlcyI6W119.e72mA4u-ID81C85d1ajz-PKuPMvA8LgvnPayWI3y2DQZv4ya7K9iqYFUJalHImF0x6yeXzzkG9MCwAMLFR2zxg',
-          'accept': 'application/json',
-          'content-type': 'application/json'
+          'Authorization': 'Basic ' + btoa(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`),
+          'accept': 'application/x-www-form-urlencoded',
+          'content-type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
-          params: [{ key: '{{1}}', value: message_final }],
-          recipient_phone_number: recipient_phone, // Phumlani's number
-          // recipient_phone_number: '+27784130968', // Dylan's number
-          hsm_id: '141551' // Replace with your WhatsApp template HSM ID
+        body: new URLSearchParams({
+          'ContentSid': 'HX9bfeeec701dbe1332fb8729ed1c74193',  // Twilio template SID
+          'To': `whatsapp:${recipient_phone}`,  // Recipient's phone number
+          'From': 'whatsapp:+your_twilio_whatsapp_number',  // Twilio WhatsApp number
+          'ContentVariables': JSON.stringify({
+            "1": refNo,
+            "2": yourName,
+            "3": flatLetter,
+            "4": streetAddress,
+            "5": contactNumber,
+            "6": maintenanceDescription,
+            "7": formattedIncidentDate
+          })
         })
       };
 
-      const sendResponse = await fetch('https://app.trengo.com/api/v2/wa_sessions', sendMessageOptions);
-      const sendData = await sendResponse.json();
-      console.log('API Response:', sendData);
+      // Send the request to Twilio's API
+      fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`, sendMessageOptions)
+        .then(response => response.json())
+        .then(sendData => console.log('API Response:', sendData))
+        .catch(error => console.error('Error:', error));
     }
+
 
     const newRecipients = [contactNumber]; // Dylan
     for (const new_recipient_phone of newRecipients) {
